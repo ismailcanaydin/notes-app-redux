@@ -1,39 +1,21 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { getNotesAsync } from "./services";
+import { createSlice } from "@reduxjs/toolkit";
+import { addNoteAsync, getNotesAsync, removeNoteAsync } from "./services";
 
 export const notesSlice = createSlice({
     name: 'notes',
     initialState: {
-        items: [
-            {
-                id: nanoid(),
-                note: 'note 1',
-                color: 'red',
-            },
-            {
-                id: nanoid(),
-                note: 'note 2',
-                color: 'yellow',
-            },
-            {
-                id: nanoid(),
-                note: 'note 3',
-                color: 'blue',
-            },
-        ],
+        items: [],
         addNewNote: {
             isLoading: false,
             error: null,
         }
     },
     reducers: {
-        changeActiveFilter: (state, action) => {
-            state.activeFilterNote = action.payload
+        removeNote: (state, action) => {
+            const id = action.payload;
+            const filtered = state.items.filter((item) => item.id !== id);
+            state.items = filtered;
         },
-        clearCompleted: (state) => {
-            const filtered = state.items.filter((item) => item.completed === false)
-            state.items = filtered
-        }
     },
     extraReducers: {
         // get notes
@@ -48,12 +30,31 @@ export const notesSlice = createSlice({
             state.error = action.error.message
             state.isLoading = false
         },
+
+        //add note
+        [addNoteAsync.pending]: (state, action) => {
+            state.addNewNote.isLoading = true;
+        },
+        [addNoteAsync.fulfilled]: (state, action) => {
+            state.addNewNote.isLoading = false;
+            state.items.push(action.payload);
+        },
+        [addNoteAsync.rejected]: (state, action) => {
+            state.addNewNote.isLoading = false;
+            state.addNewNote.error = action.error.message;
+        },
+        // remove todo
+        [removeNoteAsync.fulfilled]: (state, action) => {
+            const id = action.payload
+            const index = state.items.findIndex((item) => item.id === id)
+            state.items.splice(index, 1)
+        }
     },
 })
 
 export const selectNotes = (state) => state.notes.items
 // export const selectActiveFilter = (state) => state.notes.activeFilterNote
-export const noteList = (state) => state.notes.items
+export const getNotes = (state) => state.notes.items
 
-export const { changeActiveFilter, clearCompleted } = notesSlice.actions
+export const { addNewNote, removeNote } = notesSlice.actions
 export default notesSlice.reducer

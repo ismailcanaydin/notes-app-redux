@@ -14,28 +14,52 @@ app.use(json());
 
 let notes = [
     {
-      id: nanoid(),
+      id: "1",
       note: 'note 1',
       color: 'red',
     },
     {
-      id: nanoid(),
+      id: "2",
       note: 'note 2',
       color: 'yellow',
     },
     {
-      id: nanoid(),
+      id: "3",
       note: 'note 3',
       color: 'blue',
     },
     {
-      id: nanoid(),
+      id: "4",
       note: 'note 4',
       color: 'green',
     },
     {
-      id: nanoid(),
+      id: "5",
       note: 'note 5',
+      color: 'pink',
+    },{
+      id: "6",
+      note: 'note 6',
+      color: 'red',
+    },
+    {
+      id: "7",
+      note: 'note 7',
+      color: 'yellow',
+    },
+    {
+      id: "8",
+      note: 'note 8',
+      color: 'blue',
+    },
+    {
+      id: "9",
+      note: 'note 9',
+      color: 'green',
+    },
+    {
+      id: "10",
+      note: 'note 10',
       color: 'pink',
     },
   ];
@@ -43,7 +67,7 @@ let notes = [
   app.get('/notes', (req, res) => res.send(notes));
 
   app.post('/notes', (req, res) => {
-    const note = { note: req.body.note, id: nanoid(), color: 'false' };
+    const note = { ...req.body, id: nanoid() };
     notes.push(note);
     return res.send(note);
   });

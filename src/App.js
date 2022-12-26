@@ -7,25 +7,26 @@ import NoteList from './components/NoteList';
 function App() {
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header />
-
-        <div style={{ display: 'flex' }}>
-
-          <div style={{ height: 300, width: 600, backgroundColor: '#fff', borderRadius: '10px' }}>
-            <Search />
-
+    <div className='App-header'>
+      <div className='row '>
+      </div>
+      <div className='row'>
+        <div className="col-5 ms-4">
+          <header className="App" style={{ position: 'fixed' }}>
+            <Header />
+            <div style={{ height: 220, width: 500, backgroundColor: '#fff', borderRadius: '10px' }}>
+              <Search />
+            </div>
             <div>
               <ContentFooter />
             </div>
-
-          </div>
-
+          </header >
+        </div >
+        <div className='col-6 mt-4'>
           <NoteList />
         </div>
-      </header >
-    </div >
+      </div>
+    </div>
   );
 }
 
