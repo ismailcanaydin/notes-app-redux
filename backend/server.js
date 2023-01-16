@@ -16,51 +16,51 @@ let notes = [
     {
       id: "1",
       note: 'note 1',
-      color: 'red',
+      color: 'text-bg-danger',
     },
     {
       id: "2",
       note: 'note 2',
-      color: 'yellow',
+      color: 'color-label-3',
     },
     {
       id: "3",
       note: 'note 3',
-      color: 'blue',
+      color: 'text-bg-info',
     },
     {
       id: "4",
       note: 'note 4',
-      color: 'green',
+      color: 'color-label-4',
     },
     {
       id: "5",
       note: 'note 5',
-      color: 'pink',
+      color: 'text-bg-secondary',
     },{
       id: "6",
       note: 'note 6',
-      color: 'red',
+      color: 'text-bg-danger',
     },
     {
       id: "7",
       note: 'note 7',
-      color: 'yellow',
+      color: 'color-label-3',
     },
     {
       id: "8",
       note: 'note 8',
-      color: 'blue',
+      color: 'text-bg-info',
     },
     {
       id: "9",
       note: 'note 9',
-      color: 'green',
+      color: 'color-label-4',
     },
     {
       id: "10",
       note: 'note 10',
-      color: 'pink',
+      color: 'text-bg-secondary',
     },
   ];
 

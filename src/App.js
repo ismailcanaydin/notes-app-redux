@@ -1,7 +1,6 @@
 import './App.css';
 import Header from './components/Header';
 import Search from './components/Search';
-import ContentFooter from './components/ContentFooter';
 import NoteList from './components/NoteList';
 
 function App() {
@@ -17,9 +16,7 @@ function App() {
             <div style={{ height: 220, width: 500, backgroundColor: '#fff', borderRadius: '10px' }}>
               <Search />
             </div>
-            <div>
-              <ContentFooter />
-            </div>
+            
           </header >
         </div >
         <div className='col-6 mt-4'>

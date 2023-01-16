@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getNotes } from '../redux/notes/notesSlice'
+import {
+    addItemsIsError,
+    getFilteredItem,
+    getItemsIsError,
+    getNotes,
+    removeItemsIsError
+} from '../redux/notes/notesSlice'
+
 import { getNotesAsync, removeNoteAsync } from '../redux/notes/services'
+import Loading from './Loading'
+import { getItemsIsLoading } from '../redux/notes/notesSlice'
 import {
     AlertDialog,
     AlertDialogBody,
@@ -12,10 +21,20 @@ import {
     CloseButton,
     Button,
 } from '@chakra-ui/react'
+import Error from './Error'
+
 
 function NoteList() {
     const dispatch = useDispatch()
+
     const notes = useSelector(getNotes)
+    const filtered = useSelector(getFilteredItem);
+
+    const itemsIsLoading = useSelector(getItemsIsLoading)
+
+    const addNoteError = useSelector(addItemsIsError)
+    const getItemsError = useSelector(getItemsIsError)
+    const removeNoteError = useSelector(removeItemsIsError)
 
     const [isOpen, setIsOpen] = useState();
     const [deleteId, setDeleteId] = useState()
@@ -26,21 +45,34 @@ function NoteList() {
     }
     const onDelete = async (id) => {
         setIsOpen(false);
-        if(isOpen === true) {
+        if (isOpen === true) {
             await dispatch(removeNoteAsync(deleteId))
         }
     }
+
+    const filteredNotes = notes.filter((item) =>
+        item.note.toLowerCase().includes(filtered.toLowerCase())
+    );
 
     useEffect(() => {
         dispatch(getNotesAsync())
     }, [dispatch])
 
+    if (itemsIsLoading) {
+        return <Loading message={"Loading..."} />;
+    }
+
     return (
         <>
             <div className='row row-cols-1 row-cols-md-2 g-4'>
+
+                {getItemsError && <Error message={getItemsError} />}
+                {addNoteError && <Error message={addNoteError} />}
+                {removeNoteError && <Error message={removeNoteError} />}
+
                 {
-                    notes.map((item) => (
-                        <div key={item.id} className='col'>
+                    filteredNotes.map((item) => (
+                        <div key={item.id} className='col' >
                             <div className={`${item.color ? item.color : ''} card fs-6`} style={{ width: '18rem' }}>
 
                                 <div className="card-body">
@@ -80,8 +112,10 @@ function NoteList() {
                                             </AlertDialogContent>
                                         </AlertDialogOverlay>
                                     </AlertDialog>
+
                                     <p className="card-title">{item.note}</p>
                                 </div>
+
                             </div>
                         </div>
                     ))

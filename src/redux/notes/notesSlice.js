@@ -8,7 +8,8 @@ export const notesSlice = createSlice({
         addNewNote: {
             isLoading: false,
             error: null,
-        }
+        },
+        filteredItem: ""
     },
     reducers: {
         removeNote: (state, action) => {
@@ -16,9 +17,12 @@ export const notesSlice = createSlice({
             const filtered = state.items.filter((item) => item.id !== id);
             state.items = filtered;
         },
+        filterNote: (state, action) => {
+            state.filteredItem = action.payload;
+        }
     },
     extraReducers: {
-        // get notes
+        // get note
         [getNotesAsync.pending]: (state, action) => {
             state.isLoading = true
         },
@@ -32,9 +36,6 @@ export const notesSlice = createSlice({
         },
 
         //add note
-        [addNoteAsync.pending]: (state, action) => {
-            state.addNewNote.isLoading = true;
-        },
         [addNoteAsync.fulfilled]: (state, action) => {
             state.addNewNote.isLoading = false;
             state.items.push(action.payload);
@@ -43,18 +44,30 @@ export const notesSlice = createSlice({
             state.addNewNote.isLoading = false;
             state.addNewNote.error = action.error.message;
         },
-        // remove todo
+        // remove note
         [removeNoteAsync.fulfilled]: (state, action) => {
             const id = action.payload
             const index = state.items.findIndex((item) => item.id === id)
             state.items.splice(index, 1)
-        }
+        },
+        [removeNoteAsync.rejected]: (state, action) => {
+            state.removeNote.isLoading = false;
+            state.removeNote.error = action.error.message;
+        },
     },
 })
 
 export const selectNotes = (state) => state.notes.items
-// export const selectActiveFilter = (state) => state.notes.activeFilterNote
-export const getNotes = (state) => state.notes.items
 
-export const { addNewNote, removeNote } = notesSlice.actions
+export const getNotes = (state) => state.notes.items
+export const getFilteredItem = (state) => state.notes.filteredItem
+
+export const getItemsIsLoading = (state) => state.notes.isLoading
+
+export const getItemsIsError = (state) => state.notes.error
+export const addItemsIsError = (state) => state.notes.addNewNote.error
+export const removeItemsIsError = (state) => state.notes.error
+
+
+export const { addNewNote, removeNote, filterNote } = notesSlice.actions
 export default notesSlice.reducer

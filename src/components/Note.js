@@ -1,7 +1,8 @@
-import { Button, Radio, RadioGroup, Stack, Textarea } from '@chakra-ui/react'
+import { Button, Textarea } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addNoteAsync } from '../redux/notes/services'
+
 
 function Note() {
     const dispatch = useDispatch()
@@ -36,8 +37,6 @@ function Note() {
             ? true
             : false;
     };
-
-
 
     return (
         <div>
